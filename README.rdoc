@@ -1,0 +1,12 @@
+== Ext.ux.touch.SwipeTabs
+
+A plugin that lets the user swipe between tabs in a TabPanel. No configuration is needed.
+
+= Sample Usage
+
+  {
+    xtype: 'tabpanel',
+    ...,
+    plugins: [new Ext.ux.touch.SwipeTabs()],
+    ...
+  }
