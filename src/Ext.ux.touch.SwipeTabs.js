@@ -28,7 +28,9 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
       if (itm.getLayout().type === 'card'){
         itm.on('render', this.initChildSwipeHandlers, this);
       }else{
-        this.addSwipe(itm, i);
+        itm.on('render', function(){ 
+			this.addSwipe(itm, i);
+		}, this);
       }
     },this)
   },
