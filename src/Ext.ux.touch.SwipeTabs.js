@@ -17,7 +17,7 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
   // private
   init: function(cmp){
     this.cmp = cmp;
-    this.setFn = (Ext.versionDetail.major === 0 && Ext.versionDetail.minor <= 9 && Ext.versionDetail.patch < 9) ? 'Card' : 'ActiveItem'; 
+    this.setFn = (Ext.versionDetail.major === 0) ? 'Card' : 'ActiveItem'; 
     cmp.on('render', this.initSwipeHandlers, this);
   },
   // private
@@ -26,11 +26,19 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
     this.cmp.items.each(function(itm, i){
       itm.idx = i;
       if (itm.getLayout().type === 'card'){
-        itm.on('render', this.initChildSwipeHandlers, this);
+        if (itm.rendered){
+          this.initChildSwipeHandlers(itm);
+        }else{
+          itm.on('render', this.initChildSwipeHandlers, this);
+        }
       }else{
-        itm.on('render', function(){ 
-			this.addSwipe(itm, i);
-		}, this);
+        if (itm.rendered){
+          this.addSwipe(itm, i);
+        }else{
+          itm.on('render', function(){ 
+           this.addSwipe(itm, i);
+          }, this);
+        }
       }
     },this)
   },
@@ -38,7 +46,13 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
   initChildSwipeHandlers: function(itm){
     var i = itm.idx;
     itm.items.each(function(itm){
-      this.addSwipe(itm, i);
+      if (itm.rendered){
+        this.addSwipe(itm, i);
+      }else{
+        itm.on('render', function(){
+          this.addSwipe(itm, i);
+        }, this);
+      }
     }, this);
   },
   // private
