@@ -10,3 +10,5 @@ A plugin that lets the user swipe between tabs in a TabPanel. No configuration i
     plugins: [new Ext.ux.touch.SwipeTabs()],
     ...
   }
+
+If you need a particular panel to not have swipe actions added to it, you can disable them by setting allowSwipe to false on the item.
