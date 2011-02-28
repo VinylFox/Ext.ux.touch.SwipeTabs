@@ -25,19 +25,21 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
     this.cmp.til = this.cmp.items.length-1;
     this.cmp.items.each(function(itm, i){
       itm.idx = i;
-      if (itm.getLayout().type === 'card'){
-        if (itm.rendered){
-          this.initChildSwipeHandlers(itm);
+      if (itm.allowSwipe !== false){
+        if (itm.getLayout().type === 'card'){
+          if (itm.rendered){
+            this.initChildSwipeHandlers(itm);
+          }else{
+            itm.on('render', this.initChildSwipeHandlers, this);
+          }
         }else{
-          itm.on('render', this.initChildSwipeHandlers, this);
-        }
-      }else{
-        if (itm.rendered){
-          this.addSwipe(itm, i);
-        }else{
-          itm.on('render', function(){ 
-           this.addSwipe(itm, i);
-          }, this);
+          if (itm.rendered){
+            this.addSwipe(itm, i);
+          }else{
+            itm.on('render', function(){ 
+             this.addSwipe(itm, i);
+            }, this);
+          }
         }
       }
     },this)
