@@ -17,26 +17,27 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
   // private
   init: function(cmp){
     this.cmp = cmp;
-    this.setFn = (Ext.versionDetail.major === 0) ? 'Card' : 'ActiveItem'; 
-    cmp.on('render', this.initSwipeHandlers, this);
+    this.swipeRight = [];
+    this.swipeLeft = []; 
+    cmp.on('painted', this.initSwipeHandlers, this);
   },
   // private
   initSwipeHandlers: function(){
     this.cmp.til = this.cmp.items.length-1;
     this.cmp.items.each(function(itm, i){
       itm.idx = i;
-      if (itm.allowSwipe !== false){
+      if (itm.allowSwipe !== false && !itm.docked){
         if (itm.getLayout().type === 'card'){
           if (itm.rendered){
             this.initChildSwipeHandlers(itm);
           }else{
-            itm.on('render', this.initChildSwipeHandlers, this);
+            itm.on('painted', this.initChildSwipeHandlers, this);
           }
         }else{
           if (itm.rendered){
             this.addSwipe(itm, i);
           }else{
-            itm.on('render', function(){ 
+            itm.on('painted', function(){ 
              this.addSwipe(itm, i);
             }, this);
           }
@@ -51,7 +52,7 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
       if (itm.rendered){
         this.addSwipe(itm, i);
       }else{
-        itm.on('render', function(){
+        itm.on('painted', function(){
           this.addSwipe(itm, i);
         }, this);
       }
@@ -70,20 +71,31 @@ Ext.ux.touch.SwipeTabs = Ext.extend(Ext.util.Observable, {
   },
   // private
   addSwipeLeft: function(itm, i){
-    itm.mon(itm.el, 'swipe', function(ev) {
-      if (ev.direction == "left") {
-        this.cmp['set'+this.setFn](i + 1);
-      }
-    }, this);
+    this.swipeLeft.push(itm);
+    itm.element.on('swipe', this.onSwipeLeft, this);
+  },
+  // private
+  onSwipeLeft: function(ev) {
+    if(ev.direction == "left") {
+      this.cmp.setActiveItem(this.cmp.getActiveItem().idx + 1);
+    }
   },
   // private
   addSwipeRight: function(itm, i){
-    itm.mon(itm.el, 'swipe', function(ev) {
-      if (ev.direction == "right") {
-        this.cmp['set'+this.setFn](i - 1, {type : 'slide', direction : 'right'});
-      }
-    }, this);
+    this.swipeRight.push(itm);
+    itm.element.on('swipe', this.onSwipeRight, this);
+  },
+  // private
+  onSwipeRight: function(ev) {
+    if(ev.direction == "right") {
+      this.cmp.animateActiveItem(this.cmp.getActiveItem().idx - 2, {
+        type : 'slide',
+        direction : 'right'
+      });
+    }
+  },
+  // private
+  parentDestroy: function(){
+    
   }
 });
-
-Ext.preg('swipetabs', Ext.ux.touch.SwipeTabs);

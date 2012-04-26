@@ -7,57 +7,72 @@
   		<script type="text/javascript" src="/touch/ext-touch-debug.js"></script>
 		<script src="../../src/Ext.ux.touch.SwipeTabs.js"></script>
 		<script>
-		Ext.setup({
-		    onReady: function() {
-		        var tabpanel = new Ext.TabPanel({
-		            tabBar: {
-		                dock: 'bottom',
-		                layout: {
-		                    pack: 'center'
-		                }
-		            },
-					plugins: [new Ext.ux.touch.SwipeTabs()],
-		            fullscreen: true,
-		            ui: 'light',
-		            cardSwitchAnimation: {
-		                type: 'slide',
-		                cover: true
-		            },		            
-		            defaults: {
-		                scroll: 'vertical'
-		            },
-		            items: [{
-		                title: 'About',
-		                html: '<h1>Bottom Tabs</h1><p>Docking tabs to the bottom will automatically change their style. The tabs below are type="light", though the standard type is dark. Badges (like the 4 &amp; Long title below) can be added by setting <code>badgeText</code> when creating a tab/card or by using <code>setBadge()</code> on the tab later.</p>',
-		                iconCls: 'info',
-		                cls: 'card1'
-		            }, {
-		                title: 'Favorites',
-		                html: '<h1>Favorites Card</h1>',
-		                iconCls: 'favorites',
-		                cls: 'card2',
-		                badgeText: '4'
-		            }, {
-		                title: 'Downloads',
-		                id: 'tab3',
-		                html: '<h1>Downloads Card</h1>',
-		                badgeText: 'Text can go here too, but it will be cut off if it is too long.',
-		                cls: 'card3',
-		                iconCls: 'download'
-		            }, {
-		                title: 'Settings',
-		                html: '<h1>Settings Card</h1>',
-		                cls: 'card4',
-		                iconCls: 'settings'
-		            }, {
-		                title: 'User',
-		                html: '<h1>User Card</h1>',
-		                cls: 'card5',
-		                iconCls: 'user'
-		            }]
-		        });
-		    }
-		});
+Ext.application({
+    //next we require any components we are using in our application.
+    requires: [
+        'Ext.tab.Panel'
+    ],
+
+    /**
+     * The launch function is called when the browser and the framework is ready
+     * for the application to launch.
+     *
+     * All we are going to do is create a simple tabpanel with 3 items, and add
+     * it to the global Ext.Viewport instance.
+     */
+    launch: function() {
+        //we send a config block into the Ext.Viewport.add method which will
+        //create our tabpanel
+        Ext.Viewport.add({
+            //first we define the xtype, which is tabpanel for the Tab Panel component
+            xtype: 'tabpanel',
+            plugins: [new Ext.ux.touch.SwipeTabs()],
+            //next we define the items that will appear inside our tab panel
+            items: [
+                {
+                    //each item in a tabpanel requires the title configuration. this is displayed
+                    //on the tab for this item
+                    title: 'Tab 1',
+
+                    //next we give it some simple html
+                    items: {
+                        html: '1',
+                        centered: true
+                    },
+
+                    //then a custom cls so we can style it
+                    cls: 'card1'
+                },
+                {
+                    //title
+                    title: 'Tab 2',
+
+                    //the items html
+                    items: {
+                        html: '2',
+                        centered: true
+                    },
+
+                    //custom cls
+                    cls: 'card2'
+                },
+                {
+                    //title
+                    title: 'Tab 3',
+
+                    //the items html
+                    items: {
+                        html: '3',
+                        centered: true
+                    },
+
+                    //custom cls
+                    cls: 'card3'
+                }
+            ]
+        });
+    }
+});
 		</script>
 	</head>
 	<body>
