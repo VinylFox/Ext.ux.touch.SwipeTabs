@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>Tab Swipe Example</title>
-		<link rel="stylesheet" href="/touch/css/sencha-touch.css" type="text/css">
-  		<script type="text/javascript" src="/touch/ext-touch-debug.js"></script>
+		<link rel="stylesheet" href="sdk/resources/css/sencha-touch.css" type="text/css">
+  		<script type="text/javascript" src="sdk/sencha-touch-all.js"></script>
 		<script src="../../src/Ext.ux.touch.SwipeTabs.js"></script>
 		<script>
 Ext.application({
@@ -26,7 +26,7 @@ Ext.application({
         Ext.Viewport.add({
             //first we define the xtype, which is tabpanel for the Tab Panel component
             xtype: 'tabpanel',
-            plugins: [new Ext.ux.touch.SwipeTabs()],
+            plugins: 'swipetabs',
             //next we define the items that will appear inside our tab panel
             items: [
                 {
