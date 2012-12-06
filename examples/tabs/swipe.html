@@ -4,13 +4,15 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>Tab Swipe Example</title>
 		<link rel="stylesheet" href="sdk/resources/css/sencha-touch.css" type="text/css">
-  		<script type="text/javascript" src="sdk/sencha-touch-all.js"></script>
-		<script src="../../src/Ext.ux.touch.SwipeTabs.js"></script>
-		<script>
+  		<script type="text/javascript" src="sdk/sencha-touch-all-debug.js"></script>
+		<script type="text/javascript">
+Ext.Loader.setPath('Ext.ux.touch', '../../src/');
+
 Ext.application({
     //next we require any components we are using in our application.
     requires: [
-        'Ext.tab.Panel'
+        'Ext.tab.Panel',
+        'Ext.ux.touch.SwipeTabs'
     ],
 
     /**
