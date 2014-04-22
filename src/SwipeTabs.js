@@ -33,7 +33,19 @@ Ext.define('Ext.ux.touch.SwipeTabs', {
          */
         animation     : {
             type : 'slide'
-        }
+        },
+        
+        /**
+         * @cfg {Object} [allowDirections=['left', 'right', 'up', 'down',]] Allow swipe only in certain directions.
+         * @private
+         * @accessor
+         */
+        allowDirections : [
+            'left',
+            'right',
+            'up',
+            'down'
+        ]
     },
 
     constructor : function(config) {
@@ -57,6 +69,10 @@ Ext.define('Ext.ux.touch.SwipeTabs', {
     },
 
     onSwipe : function(e) {
+        if (this.getAllowDirections().indexOf(e.direction) < 0) {
+            return;
+        }
+        
         var cmp           = this.getCmp(),
             allowOverflow = this.getAllowOverflow(),
             animation     = this.getAnimation(),
@@ -77,7 +93,7 @@ Ext.define('Ext.ux.touch.SwipeTabs', {
                 newItem = innerItems[0];
             }
         } else {
-            newItem = innerItems[newIdx]
+            newItem = innerItems[newIdx];
         }
 
         if (newItem) {
