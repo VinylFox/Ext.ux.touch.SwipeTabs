@@ -95,13 +95,17 @@ Ext.define('Ext.ux.touch.SwipeTabs', {
         } else {
             newItem = innerItems[newIdx];
         }
-
+        var default_anim=cmp.getLayout().getAnimation();
         if (newItem) {
-            animation = Ext.apply({}, {
-                direction : direction
-            }, animation);
-
-            cmp.animateActiveItem(newItem, animation);
+         //if the defaultAnimation is null execute the setActiveItem to change the view
+        	if(typeof default_anim.disable==='function'){
+	            animation = Ext.apply({}, {
+	                direction : direction
+	            }, animation);
+	            cmp.animateActiveItem(newItem,animation);
+        	}else{
+        		cmp.setActiveItem(newItem);
+        	}  
         }
     }
 
